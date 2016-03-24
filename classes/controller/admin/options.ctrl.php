@@ -64,7 +64,9 @@ class Controller_Admin_Options extends \Nos\Controller_Admin_Application
 
     public function action_form($context = null)
     {
-        $context = $context ? $context : \Nos\Tools_Context::defaultContext();
+        $allowed_contexts = \Nos\User\Permission::contexts();
+        $context = $context ? $context : key($allowed_contexts);
+        
         $placeholders = array(
             '_context' => $context,
         );
@@ -80,7 +82,6 @@ class Controller_Admin_Options extends \Nos\Controller_Admin_Application
             if (\Arr::get($field_properties, 'common_field', false)) { //Edit field properties to set the common fields configuration
                 \Arr::set($field_properties, 'form.disabled', true);
                 \Arr::set($field_properties, 'form.context_common_field', true);
-                $allowed_contexts = \Nos\User\Permission::contexts();
                 $context_labels = array();
                 foreach (array_keys($allowed_contexts) as $context) {
                     $context_labels[] = \Nos\Tools_Context::contextLabel($context);
