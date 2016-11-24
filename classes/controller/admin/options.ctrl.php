@@ -13,7 +13,7 @@ class Controller_Admin_Options extends \Nos\Controller_Admin_Application
                 'form' => array(
                     'type' => 'submit',
                     'tag' => 'button',
-                    'value' => __('Save'),
+                    'value' => 'Save',
                     'class' => 'ui-priority-primary',
                     'data-icon' => 'check',
                 ),
@@ -29,7 +29,7 @@ class Controller_Admin_Options extends \Nos\Controller_Admin_Application
             'form' => 'lib_options::admin/form',
         ),
         'tab' => array(
-            'label' => __('Options'),
+            'label' => 'Options',
             'url' => '',
             'iconUrl' => '',
             'defaultIconUrl' => '/static/apps/lib_options/img/cog-32.png',
