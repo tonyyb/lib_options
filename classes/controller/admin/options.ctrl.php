@@ -106,6 +106,15 @@ class Controller_Admin_Options extends \Nos\Controller_Admin_Application
 
     public function action_save($view = null)
     {
+        $return = array();
+
+        if (!$this->checkRequestValidityBeforeSave()) {
+            $return['success'] = false;
+            $return['notify'] = __('Erreur dans l\'enregistrement des modifications');
+
+            return \Fuel\Core\Format::forge($return)->to_json();
+        }
+
         \Nos\I18n::current_dictionary(array('lib_options::default', 'nos::common'));
         $config = \Config::load(APPPATH.self::$options_paths[get_called_class()], true);
         $context = \Fuel\Core\Input::post('context') ? \Fuel\Core\Input::post('context') : \Nos\Tools_Context::defaultContext();
@@ -126,7 +135,7 @@ class Controller_Admin_Options extends \Nos\Controller_Admin_Application
             }
         }
         $result = \Config::save(APPPATH.self::$options_paths[get_called_class()], $config);
-        $return = array();
+
         if (!empty($result)) {
             $return['success'] = true;
             $return['notify'] = __('OK, les modifications ont été enregistrées');
@@ -138,7 +147,23 @@ class Controller_Admin_Options extends \Nos\Controller_Admin_Application
             $return['post'] = $_POST;
             $return['context'] = $context;
         }
+
         return \Fuel\Core\Format::forge($return)->to_json();
+    }
+
+    /**
+     * Check if the request is valid : should be in AJAX and "form_is_loaded" param should exists
+     *
+     * @return bool : true if the request seems valid, false otherwise
+     */
+    protected function checkRequestValidityBeforeSave()
+    {
+        $bValid = true;
+        if (!\Input::is_ajax() || (int) \Input::post('form_is_loaded', 0) !== 1) {
+            $bValid = false;
+        }
+
+        return $bValid;
     }
 
     public static function getOptions($return = true) {
