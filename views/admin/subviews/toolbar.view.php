@@ -33,6 +33,8 @@ if (empty($saveField) && !empty($fieldset)) {
                 context_select.nosOnShow('show');
             <?php endif; ?>
 
+            // Prepend an input hidden to the form : we will test its existence in controller to check request validity
+            $container.find('form').prepend('<input type="hidden" name="form_is_loaded" value="1" />');
         });
     });
 </script>
