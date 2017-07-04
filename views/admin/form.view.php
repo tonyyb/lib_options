@@ -1,7 +1,6 @@
 <?php
 $form_id = uniqid('options_form');
 ?>
-<?php echo View::forge('lib_options::admin/subviews/toolbar', $view_params + array('uniqid' => $form_id), false); ?>
 
 <div id="<?= $form_id ?>" class="page">
     <div class="line">
@@ -58,6 +57,8 @@ $form_id = uniqid('options_form');
             }
             );
 </script>
+
+<?php echo View::forge('lib_options::admin/subviews/toolbar', $view_params + array('uniqid' => $form_id), false); ?>
 
 <?php //Common field plugin
 echo \View::forge('crud/context_common_fields', array('container_id' => $form_id), false);
